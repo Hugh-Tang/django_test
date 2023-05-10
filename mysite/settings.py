@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'app01.apps.App01Config',
+    'web.apps.WebConfig',
 ]
 
 MIDDLEWARE = [
@@ -120,9 +122,26 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # 自己的短信模板
-SMS = 0
+TENCENT_SMS_APP_ID = 666666666
+TENCENT_SMS_APP_KEY = "66666666666666"
+TENCENT_SMS_SIGN = "Hugh"
 
 try:
     from .local_settings import *
 except ImportError:
     pass
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://192.168.2.15:6379", # 安装redis的主机的 IP 和 端口
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "CONNECTION_POOL_KWARGS": {
+                "max_connections": 1000,
+                "encoding": 'utf-8'
+            },
+            "PASSWORD": "foobared" # redis密码
+        }
+    }
+}
